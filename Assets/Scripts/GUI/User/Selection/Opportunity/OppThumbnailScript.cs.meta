@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a7a2d359b94829247aa23f3211718aa6
+timeCreated: 1455393267
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - customerImage: {fileID: 11420996, guid: 3938e4ad603434b41b1a33608c290208, type: 2}
+  - progressBar: {fileID: 22410416, guid: 3938e4ad603434b41b1a33608c290208, type: 2}
+  - startDateTxt: {fileID: 11449340, guid: 3938e4ad603434b41b1a33608c290208, type: 2}
+  - idealEndDateTxt: {fileID: 11403466, guid: 3938e4ad603434b41b1a33608c290208, type: 2}
+  - timeLeftTxt: {fileID: 11498090, guid: 3938e4ad603434b41b1a33608c290208, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

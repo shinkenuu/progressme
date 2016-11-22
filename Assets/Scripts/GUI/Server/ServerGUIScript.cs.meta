@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: db881344773899543aa7aa05a0b3236f
+timeCreated: 1470401610
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - panelGo: {instanceID: 0}
+  - lineTxtPrefab: {fileID: 22457396, guid: f22859e364b463a4f8646199b2fcedc7, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

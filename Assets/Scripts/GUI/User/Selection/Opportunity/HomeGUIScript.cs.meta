@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 85d9127fa58218e42bf5f3b96086e4dc
+timeCreated: 1456064392
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - userProfileImage: {fileID: 11466184, guid: c3790bf692b85644f9927dd82c394754, type: 2}
+  - onGoingTasksPanelTransform: {instanceID: 0}
+  - onGoingTaskPanelElementPrefab: {fileID: 22424064, guid: 3938e4ad603434b41b1a33608c290208,
+      type: 2}
+  - msgTxt: {instanceID: 0}
+  - popUpGo: {instanceID: 0}
+  - popUpMsgTxt: {instanceID: 0}
+  - popUpOptionsPanelTransform: {fileID: 22431058, guid: c3790bf692b85644f9927dd82c394754,
+      type: 2}
+  - popUpProcedureOptionPrefab: {fileID: 22474378, guid: 092064fc22da83d4db8936b846aa1d7d,
+      type: 2}
+  - popUpProcessOptionPrefab: {fileID: 22474378, guid: 7a5b9b98ea959ff43bba307a9b1b3183,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
