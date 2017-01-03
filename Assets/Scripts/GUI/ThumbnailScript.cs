@@ -4,15 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public abstract class ThumbnailScript : MonoBehaviour
+public class ThumbnailScript : MonoBehaviour
 {
     [SerializeField]
     protected Image ImageComponent;
-
-
-
-
-
+    
     public void SetImageComponent(string imgLocation, int height=-1, int width=-1)
     {
         if(string.IsNullOrEmpty(imgLocation))

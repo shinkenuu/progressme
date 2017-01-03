@@ -10,6 +10,10 @@ namespace Assets.Scripts.GUI.User
 
 
 
+        void Initialize();
+
+        void Close();
+
         void BtnConfirm_Click();
 
 
@@ -17,11 +21,7 @@ namespace Assets.Scripts.GUI.User
 
         void BtnCancel_Click();
 
-
-
-
-
-
+        
 
     }
 }

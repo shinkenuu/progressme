@@ -27,7 +27,7 @@ public class RepositoryWriter : RepositoryReader
         LoadDepartments(SafeReadFromDisc("DEPARTMENT.json"));
         LoadProcesses(SafeReadFromDisc("PROCESS.json"));
         LoadProducts(SafeReadFromDisc("PRODUCT.json"));
-        LoadAccounts(SafeReadFromDisc("CUSTOMER.json"));
+        LoadAccounts(SafeReadFromDisc("ACCOUNT.json"));
         LoadEmployees(SafeReadFromDisc("EMPLOYEE.json"));
         LoadOpportunities(SafeReadFromDisc("OPPORTUNITY.json"));
         LoadOppHistories(SafeReadFromDisc("OPPORTUNITY_HISTORY.json"));
@@ -183,7 +183,7 @@ public class RepositoryWriter : RepositoryReader
             sBuilder.AppendLine(jsonable.ToJson().Print());
         }
 
-        SafeWriteToDisc(sBuilder.ToString(), FilesDirectory.Server, "CUSTOMER.json");
+        SafeWriteToDisc(sBuilder.ToString(), FilesDirectory.Server, "ACCOUNT.json");
     }
 
     public void LoadAccounts(string[] jsonArray)
@@ -345,19 +345,18 @@ public class RepositoryWriter : RepositoryReader
     
     public void SafeWriteToDisc(string content, FilesDirectory fileDirectory, string fileNameWithExtension)
     {
-
         string fullPathToFileDirectory;
 
         if (fileDirectory == FilesDirectory.Server)
         {
             fullPathToFileDirectory = AppDataFolderPath;
         }
+
         else
         {
             fullPathToFileDirectory = DocumentsFolderPath;
         }
-
-
+        
         if (!Directory.Exists(fullPathToFileDirectory))
         {
             Directory.CreateDirectory(fullPathToFileDirectory);

@@ -2,84 +2,47 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts.Model;
 using Assets.Scripts;
+using Assets.Scripts.Biz.Network;
 
-public abstract class GenericGUI : MonoBehaviour {
-
-    #region References
-
-    protected NetManagerScript NetMng;
-    protected GameManagerScript GameMng;
-    protected RepositoryReader RepReader;
-
-    #endregion
-
-
-
-    protected virtual void OnEnable()
+namespace Assets.Scripts.GUI
+{
+    public abstract class GenericGUI : MonoBehaviour
     {
-        switch (SceneManager.GetActiveScene().name)
+        protected WatcherOfAll Watcher;
+        protected NetManagerScript NetMng;    
+
+        protected virtual void OnEnable()
         {
-            case "Offline":
-                StartCoroutine(LookForGameManager());
-                break;
-            case "Panel":
-                StartCoroutine(LookForGameManager());
-                StartCoroutine(LookForStorage());
-                break;
-            case "User":
-                StartCoroutine(LookForGameManager());
-                StartCoroutine(LookForStorage());
-                break;
+            Watcher = GameObject.FindGameObjectWithTag("Watcher").GetComponent<WatcherOfAll>();
+            NetMng = Watcher.NetMng;
+            //RepReader = Watcher.RepReader;
+
+            gameObject.GetComponent<Canvas>().worldCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         }
 
-        gameObject.GetComponent<Canvas>().worldCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-    }
-
-
-    #region Look For
-
-    protected IEnumerator LookForGameManager()
-    {
-        GameObject mngGo;
-
-        //While the GameObject has not been Instantiated yet by the Scene
-        while (true)
+        public void Close()
         {
-            mngGo = GameObject.Find("MngGO");
+            Destroy(this);
+        }
 
-            if (mngGo != null)
+        protected void ClearPanel(Transform panelTransform)
+        {
+            List<Transform> childrenTransform = new List<Transform>();
+            foreach (Transform child in panelTransform.GetComponentInChildren<Transform>())
             {
-                GameMng = mngGo.GetComponent<GameManagerScript>();
-                NetMng = mngGo.GetComponent<NetManagerScript>();
-                yield break;
+                childrenTransform.Add(child);
             }
 
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-    protected IEnumerator LookForStorage()
-    {
-        GameObject dataGo;
-
-        //While the GameObject has not been Instantiated yet by the Scene
-        while (true)
-        {
-            dataGo = GameObject.FindWithTag("Storage");
-
-            if (dataGo != null)
+            foreach (Transform child in panelTransform)
             {
-                RepReader = dataGo.GetComponent<RepositoryReader>();
-                yield break;
+                Destroy(child.gameObject);
             }
-
-            yield return new WaitForEndOfFrame();
         }
 
+        
+        
     }
-
-    #endregion
-    
 }

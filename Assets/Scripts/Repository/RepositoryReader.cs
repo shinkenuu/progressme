@@ -260,32 +260,32 @@ public class RepositoryReader : MonoBehaviour
 
     public IEnumerable<OPPORTUNITY_HISTORY> GetAllOppHistories() { return OpportunityHistories; }
 
-    public IEnumerable<OPPORTUNITY_HISTORY> GetOppHistoryOfWith(long taskId, int responsableEmployeeId) { return OpportunityHistories.Where(h => h.task_id == taskId && h.responsable_employee_id == responsableEmployeeId); }
+    public IEnumerable<OPPORTUNITY_HISTORY> GetOppHistoryOfWith(long taskId, int responsableEmployeeId) { return OpportunityHistories.Where(h => h.opportunity_id == taskId && h.responsable_employee_id == responsableEmployeeId); }
 
-    public IEnumerable<OPPORTUNITY_HISTORY> GetOppHistoryOfOn(long taskId, int processId) { return OpportunityHistories.Where(h => h.task_id == taskId && h.process_id == processId); }
+    public IEnumerable<OPPORTUNITY_HISTORY> GetOppHistoryOfOn(long taskId, int processId) { return OpportunityHistories.Where(h => h.opportunity_id == taskId && h.process_id == processId); }
 
-    public IEnumerable<OPPORTUNITY_HISTORY> GetEntireOppHistoryOf(long taskId) { return OpportunityHistories.Where(h => h.task_id == taskId); }
+    public IEnumerable<OPPORTUNITY_HISTORY> GetEntireOppHistoryOf(long taskId) { return OpportunityHistories.Where(h => h.opportunity_id == taskId); }
 
 
-    public OPPORTUNITY_HISTORY GetFirstOppHistoryOf(long taskId) { return OpportunityHistories.Where(th => th.task_id == taskId).OrderBy(th => th.history_date).FirstOrDefault(); }
+    public OPPORTUNITY_HISTORY GetFirstOppHistoryOf(long taskId) { return OpportunityHistories.Where(th => th.opportunity_id == taskId).OrderBy(th => th.history_date).FirstOrDefault(); }
 
-    public OPPORTUNITY_HISTORY GetPenultimateOppHistoryOf(long taskId) { return OpportunityHistories.Where(th => th.task_id == taskId).OrderByDescending(th => th.history_date).ElementAt(1); }
+    public OPPORTUNITY_HISTORY GetPenultimateOppHistoryOf(long taskId) { return OpportunityHistories.Where(th => th.opportunity_id == taskId).OrderByDescending(th => th.history_date).ElementAt(1); }
 
-    public OPPORTUNITY_HISTORY GetLatestOppHistoryOf(long taskId) { return OpportunityHistories.Where(th => th.task_id == taskId).OrderBy(th => th.history_date).LastOrDefault(); }
+    public OPPORTUNITY_HISTORY GetLatestOppHistoryOf(long taskId) { return OpportunityHistories.Where(th => th.opportunity_id == taskId).OrderBy(th => th.history_date).LastOrDefault(); }
 
 
     public IEnumerable<OPPORTUNITY_HISTORY> GetFirstAndLastOppHistoryOf(long taskId)
     {
         List<OPPORTUNITY_HISTORY> askedHistory = new List<OPPORTUNITY_HISTORY>();
 
-        OPPORTUNITY_HISTORY tHistory = OpportunityHistories.Where(th => th.task_id == taskId).OrderBy(th => th.history_date).FirstOrDefault();
+        OPPORTUNITY_HISTORY tHistory = OpportunityHistories.Where(th => th.opportunity_id == taskId).OrderBy(th => th.history_date).FirstOrDefault();
 
         if(tHistory == null)
         {
             return null;
         }
 
-        tHistory = OpportunityHistories.Where(th => th.task_id == taskId).OrderBy(th => th.history_date).LastOrDefault();
+        tHistory = OpportunityHistories.Where(th => th.opportunity_id == taskId).OrderBy(th => th.history_date).LastOrDefault();
         
         if(tHistory == null)
         {
@@ -299,7 +299,7 @@ public class RepositoryReader : MonoBehaviour
 
     public IEnumerable<OPPORTUNITY_HISTORY> GetFirstAndPenultimateAndLastOppHistoryOf(long taskId)
     {
-        List<OPPORTUNITY_HISTORY> askedHistory = OpportunityHistories.Where(h => h.task_id == taskId).OrderBy(h => h.id).ToList();
+        List<OPPORTUNITY_HISTORY> askedHistory = OpportunityHistories.Where(h => h.opportunity_id == taskId).OrderBy(h => h.id).ToList();
 
         //If there is distinct first and penultimate and last history
         if (askedHistory.Count > 2)
@@ -335,7 +335,7 @@ public class RepositoryReader : MonoBehaviour
 
     public IEnumerable<OPPORTUNITY_HISTORY> GetPenultimateAndLastOppHistoryOf(long taskId)
     {
-        List<OPPORTUNITY_HISTORY> askedHistory = OpportunityHistories.Where(h => h.task_id == taskId).OrderBy(h => h.id).ToList();
+        List<OPPORTUNITY_HISTORY> askedHistory = OpportunityHistories.Where(h => h.opportunity_id == taskId).OrderBy(h => h.id).ToList();
 
         //If there is distinct penultimate and last history, or even just the penultimate and the last
         if (askedHistory.Count > 1)

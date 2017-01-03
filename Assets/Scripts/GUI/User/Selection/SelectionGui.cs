@@ -7,14 +7,25 @@ using System.Linq;
 
 namespace Assets.Scripts.GUI.User.Selection
 {
-    public abstract class SelectionGui<TSelectable, VAction> : UserGui where TSelectable : class
+    public enum SelectionGui
     {
-        public delegate void OnSelectionConfirm(TSelectable selected);
-        public OnSelectionConfirm SelectionConfirmEvent
-        {
-            protected get;
-            set;
-        }
+        None,
+        Account,
+        Employee,
+        Opp,
+        Product,
+        Process
+    }
+
+    public abstract class SelectionGui<TSelectable> : UserGui, IUserGui, ISelectionGui where TSelectable : class
+    {
+        public delegate void SelectionConfirmedHandler(TSelectable selected);
+        public delegate void SelectionCanceledHandler();
+
+        public event SelectionConfirmedHandler SelectionConfirmed;
+        public event SelectionCanceledHandler SelectionCanceled;
+
+        protected RepositoryReader RepReader;
 
         #region GUI Vars
 
@@ -27,69 +38,67 @@ namespace Assets.Scripts.GUI.User.Selection
         protected Button SelectionBtnPrefab;
 
         #endregion
-        
-        /*
-                FILL_USER_INFO = 1,
-                REFRESH_OPPORTUNITY_PANEL = 2,
-                SETUP_HOME = 3
-        */
 
+        protected IEnumerable<TSelectable> Selectables;
 
-        protected Queue<VAction> actionsQueue;
-        protected List<TSelectable> Selectables;
-
-        public TSelectable Selected
-        {
-            protected set;
-            get;
-        }
+        public TSelectable Selected;
 
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            actionsQueue = new Queue<VAction>();
             SelectedAlertTxt.text = string.Empty;
             Selectables = new List<TSelectable>();
+            Selected = null;
+            RepReader = Watcher.RepReader;
         }
 
 
-        public void QueueAction(VAction action)
+
+        public void SetSelectables<T>(IEnumerable<T> selectables) where T : class
         {
-            if (action == null)
-            {
-                throw new System.ArgumentNullException("selectionGuiAction cannot be null");
-            }
-
-            actionsQueue.Enqueue(action);
-
-            if (actionsQueue.Count == 1)
-            {
-                FetchNextAction();
-            }
+            Selectables = selectables as IEnumerable<TSelectable>;
         }
 
-        protected abstract void FetchNextAction();
+
+
+        public void Subscribe<T>(Selection.SelectionGui<T>.SelectionConfirmedHandler func) where T : class
+        {
+            SelectionConfirmed += func as Selection.SelectionGui<TSelectable>.SelectionConfirmedHandler;
+        }
+
+        public void Subscribe<T>(Selection.SelectionGui<T>.SelectionCanceledHandler func) where T : class
+        {
+            SelectionCanceled += func as Selection.SelectionGui<TSelectable>.SelectionCanceledHandler;
+        }
+
+
+
+        protected void OnSelectionConfirmed(TSelectable param)
+        {
+            if(SelectionConfirmed == null)
+            {
+                return;
+            }
+
+            OnSelectionConfirmed(param);
+        }
+
+        protected void OnSelectionCanceled()
+        {
+            if (SelectionCanceled == null)
+            {
+                return;
+            }
+
+            OnSelectionCanceled();
+        }
 
 
 
         #region Panels Control
-
-        protected void ClearPanel(Transform panelTransform)
-        {
-            List<Transform> childrenTransform = new List<Transform>();
-            foreach (Transform child in panelTransform.GetComponentInChildren<Transform>())
-            {
-                childrenTransform.Add(child);
-            }
-
-            foreach (Transform child in childrenTransform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-
-        protected void RefreshPanel()
+        
+        public void RefreshPanel()
         {
             if (SelectionPanel.childCount > 0)
             {
@@ -110,10 +119,7 @@ namespace Assets.Scripts.GUI.User.Selection
 
             Debug.Log(this.ToString() + "'s panel was populated completely");
         }
-
-
-
-
+                
 
         protected abstract void PresetPanelElement(GameObject panelElem, TSelectable elemSubject);
 
@@ -124,16 +130,25 @@ namespace Assets.Scripts.GUI.User.Selection
 
         #region Buttons
 
+
         public override void BtnConfirm_Click()
         {
             if (Selected == null)
             {
-                InformUser("Please, select a " + Selected.ToString().ToLower() + " before advancing to the next step.");
+                InformUser("Please, select a " + Selected.ToString().ToLower() + " before confirm.");
                 return;
             }
 
-            SelectionConfirmEvent.Invoke(Selected);
+            OnSelectionConfirmed(Selected);
         }
+
+
+        public override void BtnCancel_Click()
+        {
+            OnSelectionCanceled();
+        }
+
+
 
         protected abstract void OnPanelButtonClick(TSelectable param);
 
